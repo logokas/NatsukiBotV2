@@ -36,20 +36,53 @@ class ModeratorCog(commands.Cog):
         asyncio.create_task(ctx.message.delete())
         await channel.send(thing)
 
-    @commands.command()
-    async def sayyuri(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
-        if not channel:
-            channel = ctx.channel
-        webhook: discord.Webhook = discord.utils.get(await ctx.guild.webhooks(), name="NatsukiBot")
-        if not webhook:
-            return await ctx.channel.send("I don't have a webhook :(")
-        if webhook.channel != channel:
-            try:
-                await self.setwebhookchannel(webhook, channel)
-            except discord.errors.Forbidden:
-                return await ctx.channel.send("I don't have permission to move my webhook to that channel")
-
-        await webhook.send(username="Yuri", avatar_url="https://i.imgur.com/4iUOu2Q.png", content=message)
+        @commands.command()
+        async def sayyuri(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
+            if not channel:
+                channel = ctx.channel
+            webhook: discord.Webhook = discord.utils.get(await ctx.guild.webhooks(), name="NatsukiBot")
+            if not webhook:
+                return await ctx.channel.send("You haven't created a webhook named NatsukiBot or I can't access it!")
+            if webhook.channel != channel:
+                try:
+                    await self.setwebhookchannel(webhook, channel)
+                except discord.errors.Forbidden:
+                    return await ctx.channel.send("I don't have permission to move the webhook to this channel!")
+    
+            asyncio.create_task(ctx.message.delete())
+            await webhook.send(username="Yuri", avatar_url="https://i.imgur.com/fMpGl3h.png", content=message)
+    
+        @commands.command()
+        async def saysayori(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
+            if not channel:
+                channel = ctx.channel
+            webhook: discord.Webhook = discord.utils.get(await ctx.guild.webhooks(), name="NatsukiBot")
+            if not webhook:
+                return await ctx.channel.send("You haven't created a webhook named NatsukiBot or I can't access it!")
+            if webhook.channel != channel:
+                try:
+                    await self.setwebhookchannel(webhook, channel)
+                except discord.errors.Forbidden:
+                    return await ctx.channel.send("I don't have permission to move the webhook to this channel!")
+    
+            asyncio.create_task(ctx.message.delete())
+            await webhook.send(username="Sayori", avatar_url="https://i.imgur.com/LOItUFM.png", content=message)
+    
+        @commands.command()
+        async def saymonika(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
+            if not channel:
+                channel = ctx.channel
+            webhook: discord.Webhook = discord.utils.get(await ctx.guild.webhooks(), name="NatsukiBot")
+            if not webhook:
+                return await ctx.channel.send("You haven't created a webhook named NatsukiBot or I can't access it!")
+            if webhook.channel != channel:
+                try:
+                    await self.setwebhookchannel(webhook, channel)
+                except discord.errors.Forbidden:
+                    return await ctx.channel.send("I don't have permission to move the webhook to this channel!")
+    
+            asyncio.create_task(ctx.message.delete())
+            await webhook.send(username="Monika", avatar_url="https://i.imgur.com/Fca1WnZ.png", content=message)
 
     @commands.command()
     async def suggestion(self, ctx: commands.Context, index: int = 1):
