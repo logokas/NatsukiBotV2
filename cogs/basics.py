@@ -1,3 +1,4 @@
+import subprocess
 import time
 from datetime import datetime
 
@@ -5,7 +6,7 @@ import discord
 import pytz
 from discord.ext import commands
 
-from botutils import BaseCog
+from utils.bot import BaseCog
 
 timezones = [
     "UTC",
@@ -37,6 +38,7 @@ class BasicsCog(BaseCog):
         after = int((before - time.monotonic()) * 1000)
         embed = discord.Embed(title="Pong!", color=discord.Color(0xeb72a4))
         embed.add_field(name="bot.latency", value=f"{int(self.bot.latency * 1000)}ms")
+
         embed.add_field(name="Command Response Time", value=f"{int(responsetime)}ms")
         embed.add_field(name="Send Request Time", value=f"{after}ms")
         await m.edit(content=None, embed=embed)
@@ -52,8 +54,13 @@ class BasicsCog(BaseCog):
         return await ctx.send(embed=embed)
 
     @commands.command()
-    async def whosaround(self, ctx: commands.Context):
-        embed = discord.Embed(title="Available Staff")
+    async def version(self, ctx: commands.Context):
+        commithash = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'])
+        embed = discord.Embed(title="Bot info", color=discord.Color(0xeb72a4),
+                              description=f"We are running NatsukiBotV2 rewrite at commit ID: `{commithash.decode('ascii').strip()}`\n"
+                                          f"Bot written by famous1622#1622\n")
+        embed.set_footer(text="famousBots discord: https://discord.gg/PPSra9d")
+        await ctx.send(embed=embed)
 
 
 def setup(bot):

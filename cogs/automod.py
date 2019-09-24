@@ -11,7 +11,14 @@ from cogs.gulag import GulagCog
 blanknamechars = set(" \U000e0000")
 
 
-class RaidCog(commands.Cog):
+def isUntypeable(thing: str):
+    for c in thing:
+        if c in string.ascii_letters or c in string.digits:
+            return False
+    return True
+
+
+class AutoModCog(commands.Cog):
     _session: aiohttp.ClientSession
 
     def __init__(self, bot: commands.Bot):
@@ -20,7 +27,7 @@ class RaidCog(commands.Cog):
         self.pings = {}
         self.bot.loop.create_task(self.pingResetter())
 
-    def __unload(self):
+    def natsu_unload(self):
         self.bot.loop.create_task(self._session.close())
 
     @commands.Cog.listener()
@@ -28,7 +35,7 @@ class RaidCog(commands.Cog):
         if message.role_mentions and len(list(filter(lambda x: x.name != "Moderator", message.role_mentions))):
             self.pings[message.author.id] = self.pings.get(message.author.id, 0) + 1
             if self.pings[message.author.id] > 3:
-                await self._gulag.add_gulag(message.author, 30 * 60, "NatsukiBot AntiRaid[TM]",
+                await self._gulag.add_gulag(message.author, "1800m", "NatsukiBot AntiRaid[TM]",
                                             "Pinged roles in more than 3 messages over 30 seconds")
                 await message.channel.send(f"{message.author.mention} has been autogulaged for suspected raiding. If "
                                            f"this is in correct, please contact a staff member.")
@@ -53,13 +60,13 @@ class RaidCog(commands.Cog):
     async def on_member_join(self, member: discord.Member):
         if set(member.display_name).issubset(blanknamechars):
             await member.edit(nick="I had a blank name")
-        elif not any(x in member.display_name for x in string.printable if x not in string.whitespace):
+        elif isUntypeable(member.display_name):
             await member.edit(nick=f"${member.display_name}"[:32])
 
 
 def setup(bot):
-    bot.add_cog(RaidCog(bot))
+    bot.add_cog(AutoModCog(bot))
 
 
 def teardown(bot: commands.Bot):
-    bot.remove_cog("RaidCog")
+    bot.remove_cog("AutoModCog")

@@ -28,30 +28,29 @@ class OwnerCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def __local_check(self, ctx: commands.Context):
-        if ctx.author.id == 84163178585391104 or (await ctx.bot.is_owner(ctx.author)):
+    async def nat_check(self, ctx: commands.Context):
+        if (await self.bot.is_owner(ctx.author)):
             return True
         else:
-            return False
+            return ctx.author.id == 84163178585391104
 
     # Hidden means it won't show up on the default help.
     @commands.command(name='load', hidden=True)
     # @commands.is_owner()
-    async def cog_load(self, ctx, *, cog: str):
+    async def nat_load(self, ctx, *, cog: str):
         """Command which Loads a Module.
         Remember to use dot path. e.g: cogs.owner"""
 
         try:
             self.bot.load_extension(cog)
         except Exception as e:
-            # await ctx.send(f'**`ERROR:`** {type(e).__name__} - {e}\nTraceback: ```\n{traceback.print_tb(e.__traceback__)}')
             await ctx.send("```" + "".join(traceback.format_exception(type(e), e, e.__traceback__)) + "```")
         else:
             await ctx.send('**`SUCCESS`**')
 
     @commands.command(name='unload', hidden=True)
     # @commands.is_owner()
-    async def cog_unload(self, ctx, *, cog: str):
+    async def nat_unload(self, ctx, *, cog: str):
         """Command which Unloads a Module.
         Remember to use dot path. e.g: cogs.owner"""
 
@@ -64,7 +63,7 @@ class OwnerCog(commands.Cog):
 
     @commands.command(name='reload', hidden=True)
     # @commands.is_owner()
-    async def cog_reload(self, ctx, *, cog: str):
+    async def nat_reload(self, ctx, *, cog: str):
         """Command which Reloads a Module.
         Remember to use dot path. e.g: cogs.owner"""
 
@@ -79,7 +78,7 @@ class OwnerCog(commands.Cog):
 
     @commands.command(name='reloadall', hidden=True)
     # @commands.is_owner()
-    async def cog_reloadall(self, ctx):
+    async def nat_reloadall(self, ctx):
         """Command which Reloads a Module.
         Remember to use dot path. e.g: cogs.owner"""
         extensions = list(self.bot.extensions.keys())
