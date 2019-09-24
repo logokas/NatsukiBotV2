@@ -1,6 +1,6 @@
 ## NatsukiBotV2
 **(Last Revision 30/07/19)** The second reincarnation of NatsukiBot for DDMC.
-Maintained by Gappysona.
+Maintained by Hanaka and Logokas.
 
 Visit the Doki Doki Modding Club [here](https://discord.gg/PXmar84) to test the bot.
 Report issues to the maintainer and NOT the copyright holder.

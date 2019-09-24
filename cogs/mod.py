@@ -16,8 +16,8 @@ class ModeratorCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    async def __local_check(self, ctx: commands.Context):
-        if ctx.author.permissions_in(ctx.channel).manage_messages or (await ctx.bot.is_owner(ctx.author)):
+    async def cog_check(self, ctx: commands.Context):
+        if ctx.author.permissions_in(ctx.channel).manage_messages or (await self.bot.is_owner(ctx.author)):
             return True
         else:
             return False
@@ -31,57 +31,54 @@ class ModeratorCog(commands.Cog):
         asyncio.create_task(ctx.message.delete())
         await ctx.send(thing)
 
-    @commands.command(aliases=["saychan"])
-    async def saychannel(self, ctx, channel: discord.TextChannel, *, thing):
+    @commands.command(name="saychan", aliases=["saychannel", "sayin"])
+    async def say_channel(self, ctx, channel: discord.TextChannel, *, thing):
         asyncio.create_task(ctx.message.delete())
         await channel.send(thing)
 
-    @commands.command()
-    async def sayyuri(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
+    @commands.command(name="sayyuri")
+    async def say_yuri(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
         if not channel:
             channel = ctx.channel
         webhook: discord.Webhook = discord.utils.get(await ctx.guild.webhooks(), name="NatsukiBot")
         if not webhook:
-            return await ctx.channel.send("You haven't created a webhook named NatsukiBot or I can't access it!")
+            return await ctx.channel.send("I don't have a webhook :(")
         if webhook.channel != channel:
             try:
-                await self.setwebhookchannel(webhook, channel)
+                await self._set_webhook_channel(webhook, channel)
             except discord.errors.Forbidden:
-                return await ctx.channel.send("I don't have permission to move the webhook to this channel!")
+                return await ctx.channel.send("I don't have permission to move my webhook to that channel")
 
-        asyncio.create_task(ctx.message.delete())
-        await webhook.send(username="Yuri", avatar_url="https://i.imgur.com/fMpGl3h.png", content=message)
+        await webhook.send(username="Yuri", avatar_url="https://i.imgur.com/4iUOu2Q.png", content=message)
 
-    @commands.command()
-    async def saysayori(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
+    @commands.command(name="saysayori")
+    async def say_sayori(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
         if not channel:
             channel = ctx.channel
         webhook: discord.Webhook = discord.utils.get(await ctx.guild.webhooks(), name="NatsukiBot")
         if not webhook:
-            return await ctx.channel.send("You haven't created a webhook named NatsukiBot or I can't access it!")
+            return await ctx.channel.send("I don't have a webhook :(")
         if webhook.channel != channel:
             try:
-                await self.setwebhookchannel(webhook, channel)
+                await self._set_webhook_channel(webhook, channel)
             except discord.errors.Forbidden:
-                return await ctx.channel.send("I don't have permission to move the webhook to this channel!")
+                return await ctx.channel.send("I don't have permission to move my webhook to that channel")
 
-        asyncio.create_task(ctx.message.delete())
         await webhook.send(username="Sayori", avatar_url="https://i.imgur.com/LOItUFM.png", content=message)
 
-    @commands.command()
-    async def saymonika(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
+    @commands.command(name="saymonika")
+    async def say_monika(self, ctx: commands.Context, channel: typing.Optional[discord.TextChannel], *, message):
         if not channel:
             channel = ctx.channel
         webhook: discord.Webhook = discord.utils.get(await ctx.guild.webhooks(), name="NatsukiBot")
         if not webhook:
-            return await ctx.channel.send("You haven't created a webhook named NatsukiBot or I can't access it!")
+            return await ctx.channel.send("I don't have a webhook :(")
         if webhook.channel != channel:
             try:
-                await self.setwebhookchannel(webhook, channel)
+                await self._set_webhook_channel(webhook, channel)
             except discord.errors.Forbidden:
-                return await ctx.channel.send("I don't have permission to move the webhook to this channel!")
+                return await ctx.channel.send("I don't have permission to move my webhook to that channel")
 
-        asyncio.create_task(ctx.message.delete())
         await webhook.send(username="Monika", avatar_url="https://i.imgur.com/Fca1WnZ.png", content=message)
 
     @commands.command()
@@ -90,7 +87,7 @@ class ModeratorCog(commands.Cog):
         async with ctx.typing():
             suggestionsmessages = [x async for x in
                                    discord.utils.get(ctx.guild.channels, name="server_suggestions").history()
-                                   if await self.isIncompleteSuggest(x)]
+                                   if await self._is_incomplete_suggest(x)]
 
             def get_upvotes(x):
                 reactions = discord.utils.get(x.reactions, emoji="\N{UPWARDS BLACK ARROW}")
@@ -117,11 +114,11 @@ class ModeratorCog(commands.Cog):
                 except IndexError:
                     return await m.edit(content=f"No {index}th embed")
 
-    async def setwebhookchannel(self, webhook: discord.Webhook, channel: discord.TextChannel):
+    async def _set_webhook_channel(self, webhook: discord.Webhook, channel: discord.TextChannel):
         return await self.bot.http.request(discord.http.Route('PATCH', '/webhooks/{webhook_id}', webhook_id=webhook.id),
                                            json={'channel_id': str(channel.id)})
 
-    async def isIncompleteSuggest(self, message: discord.Message):
+    async def _is_incomplete_suggest(self, message: discord.Message):
         if not len(message.reactions):
             return False
 
