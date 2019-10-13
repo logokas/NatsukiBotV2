@@ -54,7 +54,7 @@ class CommandErrorHandler(commands.Cog):
         elif isinstance(error, commands.CheckFailure):
             return await ctx.send("Either you don't have permission to do that, or it can't be done here, baka!")
 
-        await ctx.send(f"Sorry! An unexpected error has occurred. Please let <@170272074860986370> know ASAP, "
+        await ctx.send(f"Sorry! An unexpected error has occurred. Please let <@84163178585391104> know ASAP, "
                        f"unless you just broke it for fun.\n```"
                        f"{''.join(traceback.format_exception(type(error), error, error.__traceback__))}```")
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
