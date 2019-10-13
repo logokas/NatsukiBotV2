@@ -57,8 +57,8 @@ class BasicsCog(BaseCog):
     async def version(self, ctx: commands.Context):
         commithash = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'])
         embed = discord.Embed(title="Bot info", color=discord.Color(0xeb72a4),
-                              description=f"We are running NatsukiBotV2 rewrite at commit ID: `{commithash.decode('ascii').strip()}`\n"
-                                          f"Bot written by famous1622#1622\n")
+                              description=f"We are running NatsukiBotV2.1 rewrite at commit ID: `{commithash.decode('ascii').strip()}`\n"
+                                          f"Bot originally written by famous1622#1622\n")
         embed.set_footer(text="famousBots discord: https://discord.gg/PPSra9d")
         await ctx.send(embed=embed)
 
