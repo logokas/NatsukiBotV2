@@ -34,7 +34,7 @@ async def nat_moderator(ctx):
     if ctx.author.guild_permissions.administrator == True or await ctx.bot.is_owner(ctx.author):
         return True
     else:
-        return ctx.author.guild_permissions.manage_server
+        return ctx.author.guild_permissions.manage_guild
 
 def is_moderator():
     return commands.check(nat_moderator)
