@@ -30,6 +30,10 @@ artists = [
     382078965281718272,
 ]
 
+observers = [
+    440693341735092266,
+]
+
 
 class RoleCog(BaseCog):
 
@@ -59,6 +63,7 @@ class RoleCog(BaseCog):
     @commands.command(aliases=["Iam", "IAM"])
     async def iam(self, ctx: Context, *, role: typing.Union[Role, str]):
         artist = self.bot.get_guild(339272843327963136).get_role(376696109973635096)
+        observer = self.bot.get_guild(339272843327963136).get_role(376697695613485066)
 
         if isinstance(role, str):
             rolea = discord.utils.find(lambda x: x.name.lower() == role.lower(), ctx.guild.roles)
@@ -76,6 +81,8 @@ class RoleCog(BaseCog):
         else:
             if role.id in artists and artist not in member.roles:
                 await member.add_roles(artist, reason="AutoAssignArtist")
+            elif role.id in observers and observer not in member.roles:
+                await member.add_roles(observer, reason="AutoAssignObserver")
             await member.add_roles(role, reason="Self Assign")
             await ctx.send(f"Added {role.name}")
 
