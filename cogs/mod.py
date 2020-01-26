@@ -24,7 +24,11 @@ class ModeratorCog(commands.Cog):
 
     @commands.command()
     async def purge(self, ctx: commands.Context, count: int):
-        await ctx.channel.delete_messages(await ctx.channel.history(limit=count + 1).flatten())
+        try:
+            await ctx.channel.delete_messages(await ctx.channel.history(limit=count + 1).flatten())
+        except discord.errors.HTTPException:
+            return await ctx.channel.send("I cannot delete messages that are 2 weeks old.")
+
 
     @commands.command()
     async def say(self, ctx, *, thing):
