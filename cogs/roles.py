@@ -17,7 +17,6 @@ allowed_role_ids = [
     378965578553098242,
     495944125124968469,
     376696109973635096,
-    393590602614308864,
     440693341735092266,
     613355321498271777,
     531633562739277844,
@@ -55,10 +54,6 @@ class RoleCog(BaseCog):
                            )
                 )
                                        )
-
-    @commands.command(name="comedy-dark")
-    async def comedy_dark(self, ctx):
-        await self.iam.callback(self, ctx, role=self.bot.get_guild(339272843327963136).get_role(393590602614308864))
 
     @commands.command(aliases=["Iam", "IAM"])
     async def iam(self, ctx: Context, *, role: typing.Union[Role, str]):
