@@ -2,8 +2,6 @@ import discord
 from discord.ext import commands
 import re
 from datetime import datetime, timedelta
-from sqlitedict import SqliteDict
-import typing
 
 async def is_moderator(ctx):
     if ctx.author.guild_permissions.kick_members or await ctx.bot.is_owner(ctx.author):
