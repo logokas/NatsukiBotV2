@@ -15,7 +15,8 @@ initial_extensions = [
     "cogs.gulag",
     "cogs.basics",
     "cogs.mod",
-    "cogs.automod"
+    "cogs.automod",
+    "cogs.blacklist"
 ]
 
 logging.basicConfig(level=logging.INFO)
