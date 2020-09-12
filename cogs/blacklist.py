@@ -23,7 +23,6 @@ class BlacklistCog(commands.Cog):
         user_date = message.author.created_at
         end_date = user_date + timedelta(days=20)
         # checks if the sender is a mod on the server
-        mod = message.author.guild_permissions.kick_members
 
         # checks if the current time is less of the end date of the user
         if datetime.utcnow() < end_date:
@@ -48,6 +47,7 @@ class BlacklistCog(commands.Cog):
                 sblMatches = re.finditer(sblRegex, message.content.lower(), re.MULTILINE | re.IGNORECASE)
                 for x in enumerate(sblMatches, start=1):
                     # checks if user is not a mod
+                    mod = message.author.guild_permissions.kick_members
                     if not mod:
                         # NatBot will warn for now about the link
                         await message.channel.send(f"{message.author.mention}, you have posted a blacklisted site.\nPlease refrain from posting links to those in the near future.")
@@ -69,10 +69,11 @@ class BlacklistCog(commands.Cog):
                     wflMatchesA = re.finditer(wflRegexA, message.content.lower(), re.MULTILINE | re.IGNORECASE)
                     for z in enumerate(wflMatchesA, start=1):
                         # checks if user is not a mod
+                        mod = message.author.guild_permissions.kick_members
                         if not mod:
                             # NatBot will warn for now about the link
                             await message.channel.send(f"{message.author.mention}, you mentioned obtaining a blacklisted mod or download link to one.\nPlease refrain from posting links to those in the near future.")
-    
+
 def setup(bot):
     bot.add_cog(BlacklistCog(bot))
 
