@@ -13,6 +13,8 @@ class BlacklistCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
+        if message.author.id == 626045764149444614:
+            return
 
         user_date = message.author.created_at
         end_date = user_date + timedelta(days=20)
@@ -38,7 +40,7 @@ class BlacklistCog(commands.Cog):
                 for x in enumerate(sblMatches, start=1):
                     if not mod:
                         await message.delete()
-                        await message.channel.send(f"{message.author.mention}, you have posted a blacklisted site.")
+                        await message.channel.send(f"{message.author.mention}, you have posted a blacklisted site.\nPlease refrain from posting links to those in the near future.")
             
             with open("modbans.txt") as file:
                 modBlacklist = [names.strip().lower() for names in file.readlines()]
