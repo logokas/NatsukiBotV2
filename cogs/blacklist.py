@@ -1,3 +1,11 @@
+## Blacklist.py Guide
+# To add new mods/sites/words to the ban list, enter the respective TXT file and type the new word to censor.
+# Save and the bot should already see the new term.
+# Example:
+# exit music
+# comedy club
+# abridged
+
 import discord
 from discord.ext import commands
 import re
@@ -8,7 +16,7 @@ async def is_moderator(ctx):
         return True
     else:
         return False
-        
+
 class BlacklistCog(commands.Cog):
 
     @commands.Cog.listener()
