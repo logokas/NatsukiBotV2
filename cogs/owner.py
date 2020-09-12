@@ -4,6 +4,7 @@ import traceback
 import discord
 import requests
 from discord.ext import commands
+from datetime import datetime, timezone
 
 
 def insert_returns(body):
@@ -113,7 +114,21 @@ class OwnerCog(commands.Cog):
     async def pres_playing(self, ctx, *, content):
         await self.bot.change_presence(activity=discord.Game(content))
 
-    @commands.command(name="eval")
+    @commands.command(name='whois', hidden=True)
+    @is_moderator()
+    async def who(self, ctx:commands.Context, member: discord.Member):
+        rolelist = [r.mention for r in member.roles if r != ctx.guild.default_role]
+        roles = ", ".join(rolelist)
+        embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"{member.mention}", timestamp=datetime.utcnow())
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_author(name=member.name, icon_url=member.avatar_url)
+        embed.add_field(name="**Joined**", value=f"{member.joined_at.replace(tzinfo=timezone.utc).astimezone(tz=None).strftime('%a, %b %d, %Y %I:%M %p')}", inline=True)
+        embed.add_field(name="**Registered**", value=f"{member.created_at.replace(tzinfo=timezone.utc).astimezone(tz=None).strftime('%a, %b %d, %Y %I:%M %p')}", inline=True)
+        embed.add_field(name=f"**Roles [{len(rolelist)}]**", value=f"{roles}", inline=False)
+        embed.set_footer(text=f"User ID: {member.id}")
+        await ctx.send(embed=embed)
+
+    @commands.command(name="eval", hidden=True)
     @is_admin()
     # @commands.is_owner()
     async def eval_fn(self, ctx, *, cmd):
@@ -164,7 +179,7 @@ class OwnerCog(commands.Cog):
 
         await ctx.send(result)
 
-    @commands.command(name="ip")
+    @commands.command(name="ip", hidden=True)
     @is_admin()
     # @commands.is_owner()
     async def get_ip(self, ctx):
