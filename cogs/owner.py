@@ -115,6 +115,7 @@ class OwnerCog(commands.Cog):
         await self.bot.change_presence(activity=discord.Game(content))
 
     @commands.command(name='whois', hidden=True)
+    @is_moderator()
     async def who(self, ctx:commands.Context, member: discord.Member):
         rolelist = [r.mention for r in member.roles if r != ctx.guild.default_role]
         roles = ", ".join(rolelist)
@@ -127,7 +128,7 @@ class OwnerCog(commands.Cog):
         embed.set_footer(text=f"User ID: {member.id}")
         await ctx.send(embed=embed)
 
-    @commands.command(name="eval")
+    @commands.command(name="eval", hidden=True)
     @is_admin()
     # @commands.is_owner()
     async def eval_fn(self, ctx, *, cmd):
@@ -178,7 +179,7 @@ class OwnerCog(commands.Cog):
 
         await ctx.send(result)
 
-    @commands.command(name="ip")
+    @commands.command(name="ip", hidden=True)
     @is_admin()
     # @commands.is_owner()
     async def get_ip(self, ctx):
