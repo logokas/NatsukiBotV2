@@ -40,11 +40,11 @@ class BlacklistCog(commands.Cog):
                 sblLength = len(siteBlacklist)
 
             for x in range(sblLength):
-                sblRegex = r"(^"+siteBlacklist[x]+"\.)"
+                sblRegex = r"("+siteBlacklist[x]+"\.)"
                 sblMatches = re.finditer(sblRegex, message.content.lower(), re.MULTILINE | re.IGNORECASE)
 
                 for x in enumerate(sblMatches, start=1):
-                    if not mod:
+                    if mod != True:
                         await message.channel.send(f"{message.author.mention}, you have posted a blacklisted site.\nPlease refrain from posting links to those in the near future.")
             
             with open("modbans.txt") as file:
@@ -60,7 +60,7 @@ class BlacklistCog(commands.Cog):
                     wflRegexA = r"("+wordList[y]+" "+modBlacklist[x]+")"
                     wflMatchesA = re.finditer(wflRegexA, message.content.lower(), re.MULTILINE | re.IGNORECASE)
                     for z in enumerate(wflMatchesA, start=1):
-                        if not mod:
+                        if mod != True:
                             await message.channel.send(f"{message.author.mention}, you mentioned obtaining a blacklisted mod or download link to one.\nPlease refrain from posting links to those in the near future.")
     
 def setup(bot):
