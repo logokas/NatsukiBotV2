@@ -42,15 +42,15 @@ def is_moderator():
 
 class OwnerCog(commands.Cog):
     bot: commands.Bot
-
+    
     def __init__(self, bot):
         self.bot = bot
 
     @commands.Cog.listener()
     async def on_message_delete(self, message: discord.Message):
-        if message.author.id == 546397318891438082:
+        if message.author.id == 626045764149444614:
             return
-        bc = self.bot.get_channel(625764592739418121)
+        bc = self.bot.get_channel(423656208264855563)
         embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message sent by <@{message.author.id}> deleted in <#{message.channel.id}>**\n", timestamp=datetime.utcnow())
         if message.content == "":
             pass
@@ -62,9 +62,9 @@ class OwnerCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
-        if before.author.id and after.author.id == 546397318891438082:
+        if before.author.id and after.author.id == 626045764149444614:
             return
-        bc = self.bot.get_channel(625764592739418121)
+        bc = self.bot.get_channel(423656208264855563)
         embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message edited in <#{before.channel.id}>** [Jump to Message](http://discord.com/channels/542010323541032961/{before.channel.id}/{before.id})\n", timestamp=datetime.utcnow())
         if before.content == "" or after.content == "" or before.content == after.content:
             pass
@@ -77,8 +77,8 @@ class OwnerCog(commands.Cog):
         
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
-        bc = self.bot.get_channel(625764592739418121)
-        if before.id and after.id == 546397318891438082:
+        bc = self.bot.get_channel(423656208264855563)
+        if before.id and after.id == 626045764149444614:
             return
         if before.nick == after.nick:
             pass
@@ -107,7 +107,7 @@ class OwnerCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
-        bc = self.bot.get_channel(625764592739418121)
+        bc = self.bot.get_channel(423656208264855563)
         embed = discord.Embed(color=discord.Color(0x6af77b), description=f"<@{member.id}> {member.name}#{member.discriminator}\n", timestamp=datetime.utcnow())
         embed.set_author(name="Member Joined", icon_url=member.avatar_url)
         embed.set_thumbnail(url=member.avatar_url)
@@ -116,7 +116,7 @@ class OwnerCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member):
-        bc = self.bot.get_channel(625764592739418121)
+        bc = self.bot.get_channel(423656208264855563)
         embed = discord.Embed(color=discord.Color(0xdc4a4b), description=f"<@{member.id}> {member.name}#{member.discriminator}\n", timestamp=datetime.utcnow())
         embed.set_author(name="Member Left", icon_url=member.avatar_url)
         embed.set_thumbnail(url=member.avatar_url)
@@ -125,7 +125,7 @@ class OwnerCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_role_create(self, role: discord.Role):
-        bc = self.bot.get_channel(625764592739418121)
+        bc = self.bot.get_channel(423656208264855563)
         embed = discord.Embed(color=discord.Color(0x6af77b), description=f"**Role Created: {role.name}**\n", timestamp=datetime.utcnow())
         embed.set_author(name=f"{role.guild.name}", icon_url=role.guild.icon_url)
         embed.set_footer(text=f"Role ID: {role.id}")
@@ -133,7 +133,7 @@ class OwnerCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_role_delete(self, role: discord.Role):
-        bc = self.bot.get_channel(625764592739418121)
+        bc = self.bot.get_channel(423656208264855563)
         embed = discord.Embed(color=discord.Color(0xdc4a4b), description=f"**Role Deleted: {role.name}**\n", timestamp=datetime.utcnow())
         embed.set_author(name=f"{role.guild.name}", icon_url=role.guild.icon_url)
         embed.set_footer(text=f"Role ID: {role.id}")
@@ -141,7 +141,7 @@ class OwnerCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_create(self, channel):
-        bc = self.bot.get_channel(625764592739418121)
+        bc = self.bot.get_channel(423656208264855563)
         embed = discord.Embed(color=discord.Color(0x6af77b), description=f"**Channel Created: #{channel.name}**\n", timestamp=datetime.utcnow())
         embed.set_author(name=f"{channel.guild.name}", icon_url=channel.guild.icon_url)
         embed.set_footer(text=f"Role ID: {channel.id}")
@@ -149,7 +149,7 @@ class OwnerCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_guild_channel_delete(self, channel):
-        bc = self.bot.get_channel(625764592739418121)
+        bc = self.bot.get_channel(423656208264855563)
         embed = discord.Embed(color=discord.Color(0xdc4a4b), description=f"**Channel Deleted: #{channel.name}**\n", timestamp=datetime.utcnow())
         embed.set_author(name=f"{channel.guild.name}", icon_url=channel.guild.icon_url)
         embed.set_footer(text=f"Role ID: {channel.id}")
