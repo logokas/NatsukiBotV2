@@ -46,6 +46,115 @@ class OwnerCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.Cog.listener()
+    async def on_message_delete(self, message: discord.Message):
+        if message.author.id == 546397318891438082:
+            return
+        bc = self.bot.get_channel(625764592739418121)
+        embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message sent by <@{message.author.id}> deleted in <#{message.channel.id}>**\n", timestamp=datetime.utcnow())
+        if message.content == "":
+            pass
+        else:
+            embed.add_field(name="**Message**", value=f"{message.content}")
+        embed.set_author(name=message.author.name, icon_url=message.author.avatar_url)
+        embed.set_footer(text=f"User ID: {message.author.id} • Message ID: {message.id}")
+        await bc.send(embed=embed) 
+
+    @commands.Cog.listener()
+    async def on_message_edit(self, before: discord.Message, after: discord.Message):
+        if before.author.id and after.author.id == 546397318891438082:
+            return
+        bc = self.bot.get_channel(625764592739418121)
+        embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message edited in <#{before.channel.id}>** [Jump to Message](http://discord.com/channels/542010323541032961/{before.channel.id}/{before.id})\n", timestamp=datetime.utcnow())
+        if before.content == "" or after.content == "" or before.content == after.content:
+            pass
+        else:
+            embed.add_field(name="**Before**", value=f"{before.content}", inline=False)
+            embed.add_field(name="**After**", value=f"{after.content}", inline=False)
+        embed.set_author(name=before.author.name, icon_url=before.author.avatar_url)
+        embed.set_footer(text=f"User ID: {before.author.id} • Message ID: {before.id}")
+        await bc.send(embed=embed) 
+        
+    @commands.Cog.listener()
+    async def on_member_update(self, before: discord.Member, after: discord.Member):
+        bc = self.bot.get_channel(625764592739418121)
+        if before.id and after.id == 546397318891438082:
+            return
+        if before.nick == after.nick:
+            pass
+        else:
+            embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**<@{before.id}> nickname changed**\n", timestamp=datetime.utcnow())
+            embed.add_field(name="**Before**", value=f"{before.nick}", inline=False)
+            embed.add_field(name="**After**", value=f"{after.nick}", inline=False)
+            embed.set_author(name=before.name, icon_url=before.avatar_url)
+            embed.set_footer(text=f"User ID: {before.id}")
+            await bc.send(embed=embed) 
+        if before.roles == after.roles:
+            return
+        else:
+            if len(before.roles) > len(after.roles):
+                old_role = next(role for role in before.roles if role not in after.roles)
+                embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**<@{before.id}> was removed from the `{old_role}` role**\n", timestamp=datetime.utcnow())
+                embed.set_author(name=before.name, icon_url=before.avatar_url)
+                embed.set_footer(text=f"User ID: {before.id}")
+                await bc.send(embed=embed)
+            else:
+                new_role = next(role for role in after.roles if role not in before.roles)
+                embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**<@{before.id}> was given the `{new_role}` role**\n", timestamp=datetime.utcnow())
+                embed.set_author(name=before.name, icon_url=before.avatar_url)
+                embed.set_footer(text=f"User ID: {before.id}")
+                await bc.send(embed=embed)
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member: discord.Member):
+        bc = self.bot.get_channel(625764592739418121)
+        embed = discord.Embed(color=discord.Color(0x6af77b), description=f"<@{member.id}> {member.name}#{member.discriminator}\n", timestamp=datetime.utcnow())
+        embed.set_author(name="Member Joined", icon_url=member.avatar_url)
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_footer(text=f"User ID: {member.id}")
+        await bc.send(embed=embed) 
+
+    @commands.Cog.listener()
+    async def on_member_remove(self, member: discord.Member):
+        bc = self.bot.get_channel(625764592739418121)
+        embed = discord.Embed(color=discord.Color(0xdc4a4b), description=f"<@{member.id}> {member.name}#{member.discriminator}\n", timestamp=datetime.utcnow())
+        embed.set_author(name="Member Left", icon_url=member.avatar_url)
+        embed.set_thumbnail(url=member.avatar_url)
+        embed.set_footer(text=f"User ID: {member.id}")
+        await bc.send(embed=embed) 
+
+    @commands.Cog.listener()
+    async def on_guild_role_create(self, role: discord.Role):
+        bc = self.bot.get_channel(625764592739418121)
+        embed = discord.Embed(color=discord.Color(0x6af77b), description=f"**Role Created: {role.name}**\n", timestamp=datetime.utcnow())
+        embed.set_author(name=f"{role.guild.name}", icon_url=role.guild.icon_url)
+        embed.set_footer(text=f"Role ID: {role.id}")
+        await bc.send(embed=embed) 
+
+    @commands.Cog.listener()
+    async def on_guild_role_delete(self, role: discord.Role):
+        bc = self.bot.get_channel(625764592739418121)
+        embed = discord.Embed(color=discord.Color(0xdc4a4b), description=f"**Role Deleted: {role.name}**\n", timestamp=datetime.utcnow())
+        embed.set_author(name=f"{role.guild.name}", icon_url=role.guild.icon_url)
+        embed.set_footer(text=f"Role ID: {role.id}")
+        await bc.send(embed=embed) 
+
+    @commands.Cog.listener()
+    async def on_guild_channel_create(self, channel):
+        bc = self.bot.get_channel(625764592739418121)
+        embed = discord.Embed(color=discord.Color(0x6af77b), description=f"**Channel Created: #{channel.name}**\n", timestamp=datetime.utcnow())
+        embed.set_author(name=f"{channel.guild.name}", icon_url=channel.guild.icon_url)
+        embed.set_footer(text=f"Role ID: {channel.id}")
+        await bc.send(embed=embed) 
+
+    @commands.Cog.listener()
+    async def on_guild_channel_delete(self, channel):
+        bc = self.bot.get_channel(625764592739418121)
+        embed = discord.Embed(color=discord.Color(0xdc4a4b), description=f"**Channel Deleted: #{channel.name}**\n", timestamp=datetime.utcnow())
+        embed.set_author(name=f"{channel.guild.name}", icon_url=channel.guild.icon_url)
+        embed.set_footer(text=f"Role ID: {channel.id}")
+        await bc.send(embed=embed) 
+
     # Hidden means it won't show up on the default help.
     @commands.command(name='load', hidden=True)
     @is_admin()
