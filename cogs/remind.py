@@ -81,7 +81,7 @@ class RemindCog(commands.Cog):
 		
 	@commands.command()
 	@is_moderator()
-	async def remindme(self, ctx: commands.Context, time: str, context: str):
+	async def remindme(self, ctx: commands.Context, time: str, *, context: str):
 		if not re.match(r"\d+[smhdw]", time):
 			return await ctx.send("That's not a valid time string. Example: 1h4m30s")
 		else:
