@@ -76,7 +76,7 @@ class BlacklistCog(commands.Cog):
             for x in range(mblLength):
                 for y in range(wordLength):
                     for z in range(wblLength):
-                        wflRegexA = r"("+wordList[y]+" "+modBlacklist[x]+"$|"+wordList[y]+" "+modBlacklist[x]+" (?!"+modWhitelist[z]+")|)"
+                        wflRegexA = r"("+wordList[y]+" "+modBlacklist[x]+"$|"+wordList[y]+" "+modBlacklist[x]+" (?!"+modWhitelist[z]+"))"
                         wflMatchesA = re.finditer(wflRegexA, message.content.lower(), re.MULTILINE | re.IGNORECASE)
                         for a in enumerate(wflMatchesA, start=1):
                             # checks if user is not a mod
