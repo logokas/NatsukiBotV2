@@ -3,4 +3,6 @@ pytz
 requests
 attrs
 sqlitedict
+sqlite3
 beautifulsoup4
+
