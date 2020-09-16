@@ -1,11 +1,18 @@
 ## Blacklist.py Guide
-# To add new mods/words/whitelist additional mod names to the ban list, enter the respective TXT file and type the new word to censor.
-# Save and the bot should already see the new term.
-# Example:
+## To add new mods/words/whitelist to the ban list, enter the respective TXT file 
+# and type the new word to censor. Save and the bot should already see the new term.
+## Example:
 # exit music
 # comedy club
 # a brand new day
 # abridged
+
+## To add new site bans, enter the site ban TXT file and type the new site to censor.
+# Save and the bot should already see the new term. MAKE SURE TO INCLUDE .[domain]
+## Example:
+# gamejolt.com
+# itch.io
+# mega.nz
 
 import discord
 from discord.ext import commands
