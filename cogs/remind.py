@@ -88,17 +88,20 @@ class RemindCog(commands.Cog):
 			await self.add_remind(ctx.author, self.parse_time_string(time), context)
 			with SqliteDict('./reminders.sqlite', autocommit=True) as reminddb:
 				reminddb[str(ctx.author.id)] = f"{context}"
-			await ctx.send(f"{ctx.author.mention}, I will remind you in {time} about {context}.")
+			embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"{ctx.author.mention}, I will remind you in {time} about this: `{context}` [Jump to Message](http://discord.com/channels/542010323541032961/{ctx.message.channel.id}/{ctx.message.id})\n")
+			await ctx.send(embed=embed)
 
 	@commands.command(name="forgetall")
 	@is_moderator()
 	async def remove_remind(self, ctx: commands.Context):
 		remind_state: RemindState = self.remind.pop(ctx.author.id, None)
 		if not remind_state:
-			return await ctx.send("You don't have any active reminders set up.")
+			embed = discord.Embed(color=discord.Color(0xdc4a4b), description="You don't have any active reminders set up.")
+			await ctx.send(embed=embed)
 		conn = create_connection('./reminders.sqlite')
 		delete_task(conn, ctx.author.id)
-		await ctx.send(f"{ctx.author.mention}, you no longer have any timed reminders set.")
+		embed = discord.Embed(color=discord.Color(0xdc4a4b), description=f"{ctx.author.mention}, you no longer have any timed reminders set.")
+		await ctx.send(embed=embed)
 
 	async def remindchecker(self):
 		await self.bot.wait_until_ready()
@@ -119,7 +122,8 @@ class RemindCog(commands.Cog):
 
 					try:
 						with SqliteDict('./reminders.sqlite', autocommit=True) as reminddb:
-							await member.send(f"This is to notify you that you should {reminddb[str(member.id)]}")
+							embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"This is to notify you that you should do this: `{reminddb[str(member.id)]}`")
+							await member.send(embed=embed)
 							conn = create_connection('./reminders.sqlite')
 							delete_task(conn, member_id)
 					except discord.Forbidden:
