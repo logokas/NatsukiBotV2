@@ -62,19 +62,18 @@ class OwnerCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
-        if not message.attachment:
-            if before.author.id and after.author.id == 626045764149444614:
-                return
-            bc = self.bot.get_channel(423656208264855563)
-            embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message edited in <#{before.channel.id}>** [Jump to Message](http://discord.com/channels/542010323541032961/{before.channel.id}/{before.id})\n", timestamp=datetime.utcnow())
-            if before.content == "" or after.content == "" or before.content == None:
-                pass
-            else:
-                embed.add_field(name="**Before**", value=f"{before.content}", inline=False)
-                embed.add_field(name="**After**", value=f"{after.content}", inline=False)
-                embed.set_author(name=before.author.name, icon_url=before.author.avatar_url)
-                embed.set_footer(text=f"User ID: {before.author.id} • Message ID: {before.id}")
-                await bc.send(embed=embed) 
+        if before.author.id == 626045764149444614:
+            return
+        bc = self.bot.get_channel(567855782390005802)
+        embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message edited in <#{before.channel.id}>** [Jump to Message](http://discord.com/channels/542010323541032961/{before.channel.id}/{before.id})\n", timestamp=datetime.utcnow())
+        if before.content == "" or after.content == "" or before.content == None:
+            pass
+        else:
+            embed.add_field(name="**Before**", value=f"{before.content}", inline=False)
+            embed.add_field(name="**After**", value=f"{after.content}", inline=False)
+            embed.set_author(name=before.author.name, icon_url=before.author.avatar_url)
+            embed.set_footer(text=f"User ID: {before.author.id} • Message ID: {before.id}")
+            await bc.send(embed=embed) 
         
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
