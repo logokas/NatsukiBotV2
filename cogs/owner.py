@@ -64,9 +64,9 @@ class OwnerCog(commands.Cog):
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
         if before.author.id == 626045764149444614:
             return
-        bc = self.bot.get_channel(423656208264855563)
+        bc = self.bot.get_channel(378127658757783564)
         embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message edited in <#{before.channel.id}>** [Jump to Message](http://discord.com/channels/542010323541032961/{before.channel.id}/{before.id})\n", timestamp=datetime.utcnow())
-        if before.content == "" or after.content == "" or before.content == None:
+        if before.content == "" or before.content == None:
             pass
         else:
             embed.add_field(name="**Before**", value=f"{before.content}", inline=False)
