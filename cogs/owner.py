@@ -226,6 +226,8 @@ class OwnerCog(commands.Cog):
     @commands.command(name='whois', hidden=True)
     @is_moderator()
     async def who(self, ctx:commands.Context, member: discord.Member = None):
+        if member is None:
+            member = ctx.author
         rolelist = [r.mention for r in member.roles if r != ctx.guild.default_role]
         roles = ", ".join(rolelist)
         embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"{member.mention}", timestamp=datetime.utcnow())
