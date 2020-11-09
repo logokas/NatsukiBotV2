@@ -65,9 +65,9 @@ class OwnerCog(commands.Cog):
         if before.author.id == 626045764149444614:
             return
         bc = self.bot.get_channel(378127658757783564)
-        embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message edited in <#{before.channel.id}>** [Jump to Message](http://discord.com/channels/542010323541032961/{before.channel.id}/{before.id})\n", timestamp=datetime.utcnow())
+        embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message edited in <#{before.channel.id}>** [Jump to Message](http://discord.com/channels/339272843327963136/{before.channel.id}/{before.id})\n", timestamp=datetime.utcnow())
         if before.content == "" or before.content == None:
-            pass
+            return
         else:
             embed.add_field(name="**Before**", value=f"{before.content}", inline=False)
             embed.add_field(name="**After**", value=f"{after.content}", inline=False)
@@ -81,7 +81,7 @@ class OwnerCog(commands.Cog):
         if before.id and after.id == 626045764149444614:
             return
         if before.nick == after.nick:
-            pass
+            return
         else:
             embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**<@{before.id}> nickname changed**\n", timestamp=datetime.utcnow())
             embed.add_field(name="**Before**", value=f"{before.nick}", inline=False)
