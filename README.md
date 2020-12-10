@@ -1,5 +1,5 @@
 ## NatsukiBotV2
-**(Last Revision 26/10/19)** The second reincarnation of NatsukiBot for the DDMC.
+**(Last Revision 9/12/20)** The second reincarnation of NatsukiBot for the DDMC.
 Created by famous1622. Maintained by the DDMC Community.
 
 Visit the Doki Doki Modding Club [here](https://discord.gg/PXmar84) to check out the bot.
@@ -9,3 +9,4 @@ In the case that there is no maintainer, report issues to Logokas. Contact via G
 This bot is under the [BSD-3 Clause](https://opensource.org/licenses/BSD-3-Clause). License can also be found at *LICENSE.md*.
 ____________________________
 `© Copyright 2019 famous1622`
+`© Copyright 2020 GanstaKingofSA`
