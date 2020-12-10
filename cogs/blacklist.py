@@ -55,12 +55,12 @@ class BlacklistCog(commands.Cog):
 
             # checks if message contains any words in the txt file
             for x in range(sblLength):
-                sblRegex = r"("+siteBlacklist[x]+")"
+                sblRegex = r"(?<!r/)"+siteBlacklist[x]+"\."
                 sblMatches = re.finditer(sblRegex, message.content.lower(), re.MULTILINE | re.IGNORECASE)
                 for x in enumerate(sblMatches, start=1):
                     # checks if user is not a mod
                     mod = message.author.guild_permissions.kick_members
-                    if not mod:
+                    if mod:
                         # NatBot will warn for now about the link
                         await message.channel.send(f"{message.author.mention}, you have posted a blacklisted site.\nPlease refrain from posting links to those in the near future.")
             

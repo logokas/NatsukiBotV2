@@ -42,7 +42,7 @@ class AutoModCog(commands.Cog):
         if message.attachments:
             attachment: discord.Attachment = message.attachments[0]
             async with self._session.get("https://iqdb.org/", params={"url": attachment.url}) as r:
-                soup = bs4.BeautifulSoup(await r.text())
+                soup = bs4.BeautifulSoup(await r.text(), features="html.parser")
                 match = soup.select("#pages")[0]("div")[1].table
                 if match.tr.string == "Best match" and "Explicit" in match("tr")[3].string and \
                         int(match("tr")[4].string[:2]) > 90:

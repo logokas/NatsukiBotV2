@@ -64,10 +64,10 @@ class OwnerCog(commands.Cog):
     async def on_message_edit(self, before: discord.Message, after: discord.Message):
         if before.author.id == 626045764149444614:
             return
-        bc = self.bot.get_channel(567855782390005802)
-        embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message edited in <#{before.channel.id}>** [Jump to Message](http://discord.com/channels/542010323541032961/{before.channel.id}/{before.id})\n", timestamp=datetime.utcnow())
-        if before.content == "" or after.content == "" or before.content == None:
-            pass
+        bc = self.bot.get_channel(378127658757783564)
+        embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**Message edited in <#{before.channel.id}>** [Jump to Message](http://discord.com/channels/{before.guild.id}/{before.channel.id}/{before.id})\n", timestamp=datetime.utcnow())
+        if before.content == "" or before.content == None:
+            return
         else:
             embed.add_field(name="**Before**", value=f"{before.content}", inline=False)
             embed.add_field(name="**After**", value=f"{after.content}", inline=False)
@@ -81,7 +81,7 @@ class OwnerCog(commands.Cog):
         if before.id and after.id == 626045764149444614:
             return
         if before.nick == after.nick:
-            pass
+            return
         else:
             embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"**<@{before.id}> nickname changed**\n", timestamp=datetime.utcnow())
             embed.add_field(name="**Before**", value=f"{before.nick}", inline=False)
@@ -226,6 +226,8 @@ class OwnerCog(commands.Cog):
     @commands.command(name='whois', hidden=True)
     @is_moderator()
     async def who(self, ctx:commands.Context, member: discord.Member = None):
+        if member is None:
+            member = ctx.author
         rolelist = [r.mention for r in member.roles if r != ctx.guild.default_role]
         roles = ", ".join(rolelist)
         embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"{member.mention}", timestamp=datetime.utcnow())

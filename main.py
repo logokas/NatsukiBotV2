@@ -4,6 +4,12 @@ import traceback
 
 from discord.ext import commands
 from discord.ext.commands import Bot
+
+# cause stupid gateway crap 
+from discord import Intents
+# tells discord we use presence, members, messages, and guild logging intents
+intents = Intents(presences=True, members=True, messages=True, guilds=True)
+
 from SECRET import token
 
 initial_extensions = [
@@ -22,7 +28,7 @@ initial_extensions = [
 
 logging.basicConfig(level=logging.INFO)
 
-bot: Bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"))
+bot: Bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"), intents=intents)
 
 if __name__ == '__main__':
     for extension in initial_extensions:
