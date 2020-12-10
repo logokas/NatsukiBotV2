@@ -1,6 +1,8 @@
+git+https://github.com/Rapptz/discord.py
 pytz
 requests
 attrs
 sqlitedict
 sqlite3
 beautifulsoup4
+
