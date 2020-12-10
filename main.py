@@ -6,9 +6,9 @@ from discord.ext import commands
 from discord.ext.commands import Bot
 
 # cause stupid gateway crap 
-from discord import Intents
+import discord
 # tells discord we use presence, members, messages, and guild logging intents
-intents = Intents(presences=True, members=True, messages=True, guilds=True)
+intents = discord.Intents(presences=True, members=True, messages=True, guilds=True)
 
 from SECRET import token
 
