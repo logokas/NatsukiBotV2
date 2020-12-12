@@ -60,7 +60,7 @@ class BlacklistCog(commands.Cog):
                 for x in enumerate(sblMatches, start=1):
                     # checks if user is not a mod
                     mod = message.author.guild_permissions.kick_members
-                    if mod:
+                    if not mod:
                         # NatBot will warn for now about the link
                         await message.channel.send(f"{message.author.mention}, you have posted a blacklisted site.\nPlease refrain from posting links to those in the near future.")
             
