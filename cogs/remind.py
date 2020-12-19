@@ -37,15 +37,6 @@ def delete_task(conn, key):
 	cur.execute(sql, (key,))
 	conn.commit()
 
-async def nat_moderator(ctx):
-    if ctx.author.guild_permissions.administrator == True or await ctx.bot.is_owner(ctx.author):
-        return True
-    else:
-        return ctx.author.guild_permissions.manage_guild
-
-def is_moderator():
-    return commands.check(nat_moderator)
-
 class RemindCog(commands.Cog):
 	'''
 	Reminds Staff About Stuff They Must Be
@@ -80,28 +71,32 @@ class RemindCog(commands.Cog):
 		self.remind[member.id] = RemindState(remindtime=remind_time, guild=member.guild.id, context=context)
 		
 	@commands.command()
-	@is_moderator()
 	async def remindme(self, ctx: commands.Context, time: str, *, context: str):
-		if not re.match(r"\d+[smhdw]", time):
-			return await ctx.send("That's not a valid time string. Example: 1h4m30s")
+		if ctx.channel.id == 378127658757783564 or ctx.channel.id == 378084541228646400 or ctx.channel.id == 581831181524402207:
+			if not re.match(r"\d+[smhdw]", time):
+				return await ctx.send("That's not a valid time string. Example: 1h4m30s")
+			else:
+				await self.add_remind(ctx.author, self.parse_time_string(time), context)
+				with SqliteDict('./reminders.sqlite', autocommit=True) as reminddb:
+					reminddb[str(ctx.author.id)] = f"{context}"
+				embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"{ctx.author.mention}, I will remind you in {time} about this: `{context}` [Jump to Message](http://discord.com/channels/{ctx.guild.id}/{ctx.message.channel.id}/{ctx.message.id})\n")
+				await ctx.send(embed=embed)
 		else:
-			await self.add_remind(ctx.author, self.parse_time_string(time), context)
-			with SqliteDict('./reminders.sqlite', autocommit=True) as reminddb:
-				reminddb[str(ctx.author.id)] = f"{context}"
-			embed = discord.Embed(color=discord.Color(0xeb72a4), description=f"{ctx.author.mention}, I will remind you in {time} about this: `{context}` [Jump to Message](http://discord.com/channels/{ctx.guild.id}/{ctx.message.channel.id}/{ctx.message.id})\n")
-			await ctx.send(embed=embed)
-
+			return await ctx.send("You can't use this command here, baka!")
+			
 	@commands.command(name="forgetall")
-	@is_moderator()
 	async def remove_remind(self, ctx: commands.Context):
-		remind_state: RemindState = self.remind.pop(ctx.author.id, None)
-		if not remind_state:
-			embed = discord.Embed(color=discord.Color(0xdc4a4b), description="You don't have any active reminders set up.")
+		if ctx.channel.id == 378127658757783564 or ctx.channel.id == 378084541228646400 or ctx.channel.id == 581831181524402207:
+			remind_state: RemindState = self.remind.pop(ctx.author.id, None)
+			if not remind_state:
+				embed = discord.Embed(color=discord.Color(0xdc4a4b), description="You don't have any active reminders set up.")
+				await ctx.send(embed=embed)
+			conn = create_connection('./reminders.sqlite')
+			delete_task(conn, ctx.author.id)
+			embed = discord.Embed(color=discord.Color(0xdc4a4b), description=f"{ctx.author.mention}, you no longer have any timed reminders set.")
 			await ctx.send(embed=embed)
-		conn = create_connection('./reminders.sqlite')
-		delete_task(conn, ctx.author.id)
-		embed = discord.Embed(color=discord.Color(0xdc4a4b), description=f"{ctx.author.mention}, you no longer have any timed reminders set.")
-		await ctx.send(embed=embed)
+		else:
+			return await ctx.send("You can't use this command here, baka!")
 
 	async def remindchecker(self):
 		await self.bot.wait_until_ready()

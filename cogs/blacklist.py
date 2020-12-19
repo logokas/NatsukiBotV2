@@ -55,7 +55,7 @@ class BlacklistCog(commands.Cog):
 
             # checks if message contains any words in the txt file
             for x in range(sblLength):
-                sblRegex = r"(?<!r/)"+siteBlacklist[x]+"\."
+                sblRegex = r"(?<!r/)"+siteBlacklist[x]
                 sblMatches = re.finditer(sblRegex, message.content.lower(), re.MULTILINE | re.IGNORECASE)
                 for x in enumerate(sblMatches, start=1):
                     # checks if user is not a mod
