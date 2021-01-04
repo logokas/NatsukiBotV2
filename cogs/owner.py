@@ -40,6 +40,16 @@ async def nat_moderator(ctx):
 def is_moderator():
     return commands.check(nat_moderator)
 
+def is_staff():
+    return commands.check(nat_staff)
+
+# all staff should pass this check unless Karl borked the perms for some reason
+async def nat_staff(ctx):
+    if ctx.author.guild_permissions.administrator or await ctx.bot.is_owner(ctx.author):
+        return True
+    else:
+        return ctx.author.guild_permissions.kick_members
+
 class OwnerCog(commands.Cog):
     bot: commands.Bot
     
@@ -224,7 +234,7 @@ class OwnerCog(commands.Cog):
         await self.bot.change_presence(activity=discord.Game(content))
 
     @commands.command(name='whois', hidden=True)
-    @is_moderator()
+    @is_staff()
     async def who(self, ctx:commands.Context, member: discord.Member = None):
         if member is None:
             member = ctx.author

@@ -8,11 +8,13 @@
 # abridged
 
 ## To add new site bans, enter the site ban TXT file and type the new site to censor.
-# Save and the bot should already see the new term. MAKE SURE TO INCLUDE .[domain]
+## Save and the bot should already see the new term. MAKE SURE TO INCLUDE .[domain]
+## You can also add link contents to it and it should work properly too.
 ## Example:
 # gamejolt.com
 # itch.io
 # mega.nz
+# DDLC_MPT-1.01
 
 import discord
 from discord.ext import commands
@@ -83,7 +85,7 @@ class BlacklistCog(commands.Cog):
             for x in range(mblLength):
                 for y in range(wordLength):
                     for z in range(wblLength):
-                        wflRegexA = r"("+wordList[y]+" "+modBlacklist[x]+"$|"+wordList[y]+" "+modBlacklist[x]+" (?!"+modWhitelist[z]+"))"
+                        wflRegexA = r"(?:"+wordList[y]+" "+modBlacklist[x]+")(?! "+modWhitelist[z]+")"
                         wflMatchesA = re.finditer(wflRegexA, message.content.lower(), re.MULTILINE | re.IGNORECASE)
                         for a in enumerate(wflMatchesA, start=1):
                             # checks if user is not a mod
